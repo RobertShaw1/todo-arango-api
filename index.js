@@ -76,7 +76,7 @@ router.get('/todos', function (req, res) {
 router.delete('/todos', function (req, res) {
   try {
     const data = db._query(aql`
-      REMOVE "${req.queryParams._key}" IN todos
+      REMOVE "${req.queryParams._key}" IN ${todoColl}
     `);
     res.send(data)
   } catch (e) {

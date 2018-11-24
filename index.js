@@ -44,12 +44,12 @@ router.post('/sum', function (req, res) {
 
 
 
-// /* DB INTERACTION */
-// const db = require('@arangodb').db;
-// const aql = require('@arangodb').aql;
-// const errors = require('@arangodb').errors;
-// const todoColl = db._collection('todos');
-// const DOC_NOT_FOUND = errors.ERROR_ARANGO_DOCUMENT_NOT_FOUND.code;
+/* DB INTERACTION */
+const db = require('@arangodb').db;
+const aql = require('@arangodb').aql;
+const errors = require('@arangodb').errors;
+const todoColl = db._collection('todos');
+const DOC_NOT_FOUND = errors.ERROR_ARANGO_DOCUMENT_NOT_FOUND.code;
 
 
 // router.post('/todos', function (req, res) {
@@ -94,23 +94,23 @@ router.post('/sum', function (req, res) {
 // .summary('Update a Todo')
 // .description('Update a todo in the database.');
 
-// router.get('/todos', function (req, res) {
-//   try {
-//     const data = db._query(aql`
-//       FOR t IN ${todoColl}
-//       RETURN t
-//     `);
-//     res.send(data)
-//   } catch (e) {
-//     if (!e.isArangoError || e.errorNum !== DOC_NOT_FOUND) {
-//       throw e;
-//     }
-//     res.throw(404, 'Oops! not found.', e);
-//   }
-// })
-// .response(joi.object().required(), 'Fetched all todos from the collection.')
-// .summary('Retrieve all todos')
-// .description('Retrieves all todos from collection.');
+router.get('/todos', function (req, res) {
+  try {
+    const data = db._query(aql`
+      FOR t IN ${todoColl}
+      RETURN t
+    `);
+    res.send(data)
+  } catch (e) {
+    if (!e.isArangoError || e.errorNum !== DOC_NOT_FOUND) {
+      throw e;
+    }
+    res.throw(404, 'Oops! not found.', e);
+  }
+})
+.response(joi.object().required(), 'Fetched all todos from the collection.')
+.summary('Retrieve all todos')
+.description('Retrieves all todos from collection.');
 
 // router.delete('/todos', function (req, res) {
 //   try {
